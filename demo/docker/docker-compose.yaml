@@ -1,0 +1,42 @@
+name: HKJC-SOLACE-POC
+services:
+  postgres:
+    image: postgres:16.8
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./conf/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf.sample
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf.sample"] # For Database monitoring
+    networks:
+      - solace-poc
+  solace-broker:
+    image: solace/solace-pubsub-standard:10.25.0
+    container_name: solace-broker
+    shm_size: "1g"                           # per Solace docs
+    environment:
+      - username_admin_globalaccesslevel=admin
+      - username_admin_password=admin        # POC only; change in real envs
+    ports:
+      - "8080:8080"                          # PubSub+ Manager / SEMP
+      - "55555:55555"                        # SMF (JMS/JCSMP default)
+      # Optional extras you might use:
+      # - "5672:5672"                        # AMQP
+      # - "9000:9000"                        # REST
+      # - "8008:8008"                        # Web transport (WebSockets)
+      # - "1883:1883"                        # MQTT
+    volumes:
+      - solace-data:/var/lib/solace
+    networks:
+      - solace-poc
+
+volumes:
+  solace-data:
+
+networks:
+  solace-poc:
