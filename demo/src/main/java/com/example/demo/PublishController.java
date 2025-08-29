@@ -2,7 +2,7 @@ package com.example.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.DbPublisherService;
+// import com.example.demo.DbPublisherService;
 
 @RestController
 public class PublishController {
