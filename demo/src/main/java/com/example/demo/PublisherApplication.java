@@ -2,6 +2,7 @@
  *  Change log:
  *  0.0.1 - Initial working one
  *  0.0.2 - Added OTel custom instrumentation
+ *  0.0.2.1 - Added attributes
  */
 
 package com.example.demo;

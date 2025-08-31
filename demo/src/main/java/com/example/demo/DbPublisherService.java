@@ -52,6 +52,8 @@ public class DbPublisherService {
               .setSpanKind(SpanKind.PRODUCER)
               .setAttribute("messaging.system", "solace")
               .setAttribute("messaging.destination.name", queueName)
+              .setAttribute("current.method","publishAllItems")
+              .setAttribute("current.instrumentation","otel.only")
               .startSpan();
     
           try (Scope scope = span.makeCurrent()) {
